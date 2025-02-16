@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/minio/pkg/logger/message/audit"
+	"github.com/minio/pkg/v3/logger/message/audit"
 
 	"github.com/minio/minio/internal/handlers"
 	xhttp "github.com/minio/minio/internal/http"
@@ -47,6 +47,8 @@ func ToEntry(w http.ResponseWriter, r *http.Request, reqClaims map[string]interf
 	entry.RemoteHost = handlers.GetSourceIP(r)
 	entry.UserAgent = r.UserAgent()
 	entry.ReqClaims = reqClaims
+	entry.ReqHost = r.Host
+	entry.ReqPath = r.URL.Path
 
 	q := r.URL.Query()
 	reqQuery := make(map[string]string, len(q))
